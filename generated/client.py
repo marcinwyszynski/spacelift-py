@@ -6,6 +6,7 @@ from typing import Any, Dict
 from .api_key_user import APIKeyUser
 from .base_client import BaseClient
 from .get_context_details import GetContextDetails
+from .get_policy_details import GetPolicyDetails
 from .get_stack_details import GetStackDetails
 from .log_out import LogOut
 
@@ -15,6 +16,40 @@ def gql(q: str) -> str:
 
 
 class Client(BaseClient):
+    def api_key_user(self, id: str, secret: str, **kwargs: Any) -> APIKeyUser:
+        query = gql(
+            """
+            mutation APIKeyUser($id: ID!, $secret: String!) {
+              apiKeyUser(id: $id, secret: $secret) {
+                jwt
+              }
+            }
+            """
+        )
+        variables: Dict[str, object] = {"id": id, "secret": secret}
+        response = self.execute(
+            query=query, operation_name="APIKeyUser", variables=variables, **kwargs
+        )
+        data = self.get_data(response)
+        return APIKeyUser.model_validate(data)
+
+    def log_out(self, **kwargs: Any) -> LogOut:
+        query = gql(
+            """
+            mutation LogOut {
+              logout {
+                id
+              }
+            }
+            """
+        )
+        variables: Dict[str, object] = {}
+        response = self.execute(
+            query=query, operation_name="LogOut", variables=variables, **kwargs
+        )
+        data = self.get_data(response)
+        return LogOut.model_validate(data)
+
     def get_context_details(self, id: str, **kwargs: Any) -> GetContextDetails:
         query = gql(
             """
@@ -62,39 +97,42 @@ class Client(BaseClient):
         data = self.get_data(response)
         return GetContextDetails.model_validate(data)
 
-    def api_key_user(self, id: str, secret: str, **kwargs: Any) -> APIKeyUser:
+    def get_policy_details(self, id: str, **kwargs: Any) -> GetPolicyDetails:
         query = gql(
             """
-            mutation APIKeyUser($id: ID!, $secret: String!) {
-              apiKeyUser(id: $id, secret: $secret) {
-                jwt
+            query GetPolicyDetails($id: ID!) {
+              policy(id: $id) {
+                ...policyDetails
               }
             }
-            """
-        )
-        variables: Dict[str, object] = {"id": id, "secret": secret}
-        response = self.execute(
-            query=query, operation_name="APIKeyUser", variables=variables, **kwargs
-        )
-        data = self.get_data(response)
-        return APIKeyUser.model_validate(data)
 
-    def log_out(self, **kwargs: Any) -> LogOut:
-        query = gql(
-            """
-            mutation LogOut {
-              logout {
-                id
-              }
+            fragment notifiableDetails on Notifiable {
+              notificationCount
+            }
+
+            fragment policyDetails on Policy {
+              id
+              ...notifiableDetails
+              body
+              createdAt
+              description
+              labels
+              name
+              space
+              type
+              updatedAt
             }
             """
         )
-        variables: Dict[str, object] = {}
+        variables: Dict[str, object] = {"id": id}
         response = self.execute(
-            query=query, operation_name="LogOut", variables=variables, **kwargs
+            query=query,
+            operation_name="GetPolicyDetails",
+            variables=variables,
+            **kwargs
         )
         data = self.get_data(response)
-        return LogOut.model_validate(data)
+        return GetPolicyDetails.model_validate(data)
 
     def get_stack_details(self, id: str, **kwargs: Any) -> GetStackDetails:
         query = gql(

@@ -60,10 +60,12 @@ from .fragments import (
     HooksDetails,
     HooksDetailsHooks,
     NotifiableDetails,
+    PolicyDetails,
     StackDetails,
     StackDetailsHooks,
 )
 from .get_context_details import GetContextDetails, GetContextDetailsContext
+from .get_policy_details import GetPolicyDetails, GetPolicyDetailsPolicy
 from .get_stack_details import GetStackDetails, GetStackDetailsStack
 from .input_types import (
     ApiKeyInput,
@@ -175,6 +177,8 @@ __all__ = [
     "EnvironmentVariable",
     "GetContextDetails",
     "GetContextDetailsContext",
+    "GetPolicyDetails",
+    "GetPolicyDetailsPolicy",
     "GetStackDetails",
     "GetStackDetailsStack",
     "GitHubAppManifestInput",
@@ -208,6 +212,7 @@ __all__ = [
     "NotificationSeverity",
     "NotificationType",
     "PolicyCreateInput",
+    "PolicyDetails",
     "PolicyLibrariesInput",
     "PolicyLibraryInput",
     "PolicyType",

@@ -1,15 +1,16 @@
 import httpx
 
-from generated.client import Client as BaseClient
+from generated.client import Client as GeneratedClient
+from generated.exceptions import GraphQLClientError
 
 # InvalidAPIKeyError is an exception that is raised when an invalid API key is
 # used to log in.
-class InvalidAPIKeyError(Exception):
+class InvalidAPIKeyError(GraphQLClientError):
     pass
 
-# Client is a subclass of RawClient that adds convenience methods for handling
-# authentication.
-class Client(BaseClient):
+# Client wraps the generated client and add a handful of convenience methods.
+# Normally this is the class that you would use to interact with the API.
+class Client(GeneratedClient):
     def login_with_api_key(self, id: str, secret: str) -> None:
         user = self.api_key_user(id, secret).api_key_user
         if user is None:

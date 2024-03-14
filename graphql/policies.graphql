@@ -1,0 +1,18 @@
+fragment policyDetails on Policy {
+  id
+  ...notifiableDetails
+  body
+  createdAt
+  description
+  labels
+  name
+  space
+  type
+  updatedAt
+}
+
+query GetPolicyDetails($id: ID!) {
+  policy(id: $id) {
+    ...policyDetails
+  }
+}

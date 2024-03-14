@@ -6,7 +6,7 @@ from typing import List, Optional
 from pydantic import Field
 
 from .base_model import BaseModel
-from .enums import StackState, VCSProvider
+from .enums import PolicyType, StackState, VCSProvider
 
 
 class ContextDetails(BaseModel):
@@ -56,6 +56,19 @@ class NotifiableDetails(BaseModel):
     notification_count: int = Field(alias="notificationCount")
 
 
+class PolicyDetails(BaseModel):
+    id: str
+    notification_count: int = Field(alias="notificationCount")
+    body: str
+    created_at: int = Field(alias="createdAt")
+    description: Optional[str]
+    labels: List[str]
+    name: str
+    space: str
+    type: PolicyType
+    updated_at: int = Field(alias="updatedAt")
+
+
 class StackDetails(BaseModel):
     id: str
     hooks: "StackDetailsHooks"
@@ -103,4 +116,5 @@ class StackDetailsHooks(BaseModel):
 ContextDetails.model_rebuild()
 HooksDetails.model_rebuild()
 NotifiableDetails.model_rebuild()
+PolicyDetails.model_rebuild()
 StackDetails.model_rebuild()
