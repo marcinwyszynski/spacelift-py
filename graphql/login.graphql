@@ -1,0 +1,11 @@
+mutation APIKeyUser($id: ID!, $secret: String!) {
+  apiKeyUser(id: $id, secret: $secret) {
+    jwt
+  }
+}
+
+mutation LogOut {
+  logout {
+    id
+  }
+}

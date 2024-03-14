@@ -1,0 +1,35 @@
+fragment stackDetails on Stack {
+    id
+    ...hooksDetails
+    ...notifiableDetails
+    additionalProjectGlobs
+    administrative
+    autodeploy
+    autoretry
+    branch
+    createdAt
+    deleting
+    description
+    isDisabled
+    labels
+    localPreviewEnabled
+    managesStateFile
+    name
+    namespace
+    projectRoot
+    promotionEnabled: githubActionDeploy
+    protectFromDeletion
+    provider
+    repository
+    repositoryURL
+    runnerImage
+    space
+    state
+    vcsDetached
+}
+
+query GetStackDetails($id: ID!) {
+    stack(id: $id) {
+        ...stackDetails
+    }
+}

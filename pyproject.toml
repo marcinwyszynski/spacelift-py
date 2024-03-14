@@ -1,0 +1,5 @@
+[tool.ariadne-codegen]
+remote_schema_url = "https://ilovebacon.app.spacelift.dev/graphql"
+queries_path = "graphql"
+async_client = false
+target_package_name = "generated"

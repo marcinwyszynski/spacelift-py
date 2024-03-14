@@ -1,0 +1,16 @@
+fragment contextDetails on Context {
+  id
+  createdAt
+  description
+  ...hooksDetails
+  labels
+  name
+  space
+  updatedAt
+}
+
+query GetContextDetails($id: ID!) {
+  context(id: $id) {
+    ...contextDetails
+  }
+}

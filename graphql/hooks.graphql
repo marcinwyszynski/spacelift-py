@@ -1,0 +1,15 @@
+fragment hooksDetails on Hookable {
+  hooks {
+    afterApply
+    afterDestroy
+    afterInit
+    afterPerform
+    afterPlan
+    afterRun
+    beforeApply
+    beforeDestroy
+    beforeInit
+    beforePerform
+    beforePlan
+  }
+}
